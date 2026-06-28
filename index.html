@@ -2,367 +2,354 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Xmatch — Киберспортивные турниры</title>
-    <meta name="description" content="Xmatch Game Club – киберспортивный клуб. Регистрация через Steam и Telegram. Турниры стартуют скоро!">
-    <!-- Tailwind + Font Awesome -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xmatch — Киберспортивный клуб</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        /* ФИОЛЕТОВО-ЗЕЛЁНАЯ НЕОНОВАЯ СТИЛИСТИКА под аватарку клуба */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a12;
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        }
-        .bg-dark-card {
-            background: linear-gradient(145deg, #131026 0%, #0c0a18 100%);
-            border: 1px solid rgba(156, 84, 255, 0.3);
-            box-shadow: 0 8px 20px rgba(106, 13, 173, 0.2);
-        }
-        .btn-primary {
-            background: linear-gradient(95deg, #9C54FF 0%, #48F955 100%);
-            color: #0a0a0f;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 15px rgba(156, 84, 255, 0.4);
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(72, 249, 85, 0.3);
-        }
-        .btn-steam {
-            background: #171d25;
-            border: 1px solid #66c0f4;
-            transition: 0.2s;
-        }
-        .btn-steam:hover {
-            background: #1f2a36;
-            border-color: #9C54FF;
-            box-shadow: 0 0 10px #9C54FF;
-        }
-        .pulse-dot-purple {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #9C54FF;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 8px #9C54FF;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1);}
-            100% { opacity: 0.2; transform: scale(1.4);}
-        }
-        .header-hidden {
-            transform: translateY(-100%);
-        }
-        .x-cloak { display: none !important; }
-        html {
+            color: #e5e5e5;
+            min-height: 100vh;
             scroll-behavior: smooth;
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f0f17; }
-        ::-webkit-scrollbar-thumb { background: #9C54FF; border-radius: 10px; }
-        
-        @keyframes neonPulse {
-            0% { filter: drop-shadow(0 0 2px #9C54FF); }
-            50% { filter: drop-shadow(0 0 12px #48F955); }
-            100% { filter: drop-shadow(0 0 2px #9C54FF); }
+        a { text-decoration: none; color: inherit; }
+
+        /* ---------- ШАПКА ---------- */
+        .navbar {
+            background: rgba(10, 10, 18, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(156, 84, 255, 0.25);
+            padding: 0 24px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
-        .logo-neon {
-            animation: neonPulse 2s ease-in-out infinite;
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .modal-backdrop {
-            background-color: rgba(0,0,0,0.8);
+        .navbar .brand img {
+            height: 38px;
+            width: auto;
+            border-radius: 10px;
+            border: 2px solid #9C54FF;
+            padding: 3px;
+            background: rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(156,84,255,0.3);
+        }
+        .navbar .brand .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #9C54FF, #48F955);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+        .navbar .menu {
+            display: flex;
+            gap: 28px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .navbar .menu a {
+            color: rgba(255,255,255,0.7);
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+        }
+        .navbar .menu a:hover { color: #9C54FF; }
+        .navbar .steam-btn {
+            background: #171d25;
+            border: 1px solid #66c0f4;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .navbar .steam-btn:hover {
+            background: #1f2a36;
+            border-color: #9C54FF;
+            box-shadow: 0 0 20px rgba(156, 84, 255, 0.3);
+        }
+        .navbar .steam-btn i { font-size: 18px; color: #66c0f4; }
+
+        .hamburger {
+            display: none;
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: rgba(10,10,18,0.97);
+            backdrop-filter: blur(12px);
+            padding: 20px 24px;
+            gap: 16px;
+            border-bottom: 1px solid rgba(156,84,255,0.2);
+        }
+        .mobile-menu a { color: rgba(255,255,255,0.8); font-weight: 500; cursor: pointer; }
+        .mobile-menu a:hover { color: #9C54FF; }
+        .mobile-menu.open { display: flex; }
+
+        /* ---------- СТЕКЛЯННЫЕ КАРТОЧКИ ИГР ---------- */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(156, 84, 255, 0.15);
+            border-radius: 18px;
+            padding: 22px 12px 16px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            cursor: default;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: #9C54FF;
+            box-shadow: 0 16px 48px rgba(156, 84, 255, 0.25);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .game-card img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            margin: 0 auto 10px;
+            display: block;
+            border-radius: 14px;
+            background: rgba(0,0,0,0.3);
+            padding: 6px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .game-card .name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .game-card .badge {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 10px;
+            background: rgba(156,84,255,0.2);
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: #9C54FF;
+            border: 1px solid rgba(156,84,255,0.1);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #9C54FF, #48F955);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: rgba(255,255,255,0.5);
+            max-width: 520px;
+            margin: 12px auto 0;
+            font-size: 16px;
+        }
+
+        /* Секции для вкладок */
+        .section-block {
+            max-width: 1100px;
+            margin: 40px auto 20px;
+            padding: 30px 24px;
+            background: rgba(255,255,255,0.03);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 24px;
+            border: 1px solid rgba(156,84,255,0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
-        /* анимация пустого состояния */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
+        .section-block h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #9C54FF, #48F955);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .empty-float {
-            animation: float 3s ease-in-out infinite;
+        .section-block p {
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 820px) {
+            .navbar .menu { display: none; }
+            .hamburger { display: block; }
+            .navbar .steam-btn span { display: none; }
+            .navbar .steam-btn i { font-size: 22px; }
+        }
+        @media (max-width: 480px) {
+            .game-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .hero h1 { font-size: 30px; }
+            .section-block { padding: 20px 16px; }
         }
     </style>
 </head>
-<body class="antialiased text-gray-200">
+<body>
 
-<div id="app" class="flex flex-col min-h-screen">
-    
-    <!-- ШАПКА с аватаркой клуба и только XMATCH (без .CLUB) -->
-    <div class="fixed top-0 left-0 w-full transition-transform duration-300 z-50 border-b border-[#9C54FF40] bg-[#0a0a12]/95 backdrop-blur-md" x-data="{
-        menuOpen: false,
-        lastScroll: 0,
-        init() {
-            const header = this.$el;
-            const headerHeight = 64;
-            window.addEventListener('scroll', () => {
-                let currentScroll = window.pageYOffset;
-                if (currentScroll > lastScroll && currentScroll > headerHeight) {
-                    header.classList.add('header-hidden');
-                } else {
-                    header.classList.remove('header-hidden');
-                }
-                lastScroll = currentScroll;
-            });
-        },
-        toggleMenu() { this.menuOpen = !this.menuOpen; }
-    }">
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Логотип + аватарка + только XMATCH -->
-                <div class="flex items-center gap-3">
-                    <div class="relative">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZZCjInPQ2mFARO7-w8i3CRsNBgXDGPH3exw&s" 
-                             alt="Xmatch Game Club Logo" 
-                             class="h-11 w-auto rounded-xl border-2 border-[#9C54FF] logo-neon bg-black/20 p-1"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';">
-                    </div>
-                    <span class="font-black text-2xl tracking-tight bg-gradient-to-r from-[#9C54FF] via-[#48F955] to-[#9C54FF] bg-clip-text text-transparent">XMATCH</span>
-                </div>
-                <!-- Навигация десктоп -->
-                <div class="hidden md:flex items-center space-x-7 font-medium">
-                    <a href="#tournaments" class="hover:text-[#9C54FF] transition-all"><i class="fas fa-trophy mr-1"></i> Турниры</a>
-                    <a href="#howto" class="hover:text-[#9C54FF] transition-all"><i class="fas fa-user-plus mr-1"></i> Регистрация</a>
-                    <a href="#games-section" class="hover:text-[#9C54FF] transition-all"><i class="fas fa-gamepad mr-1"></i> Игры</a>
-                    <a href="#analytics" class="hover:text-[#9C54FF] transition-all"><i class="fas fa-chart-line mr-1"></i> Аналитика</a>
-                    <a href="https://t.me/x_matchclub" target="_blank" class="border border-[#9C54FF] text-[#9C54FF] px-5 py-1.5 rounded-full text-sm hover:bg-[#9C54FF] hover:text-black transition-all"><i class="fab fa-telegram"></i> Telegram</a>
-                </div>
-                <button class="md:hidden text-2xl text-white" x-on:click="toggleMenu()"><i class="fas fa-bars"></i></button>
-            </div>
-            <div x-show="menuOpen" x-cloak class="md:hidden py-4 border-t border-[#9C54FF40]">
-                <div class="flex flex-col space-y-4 text-center">
-                    <a href="#tournaments" @click="menuOpen=false" class="hover:text-[#9C54FF]">Турниры</a>
-                    <a href="#howto" @click="menuOpen=false" class="hover:text-[#9C54FF]">Регистрация</a>
-                    <a href="#games-section" @click="menuOpen=false" class="hover:text-[#9C54FF]">Игры</a>
-                    <a href="https://t.me/x_matchclub" target="_blank" class="border border-[#9C54FF] py-1.5 rounded-full">Telegram</a>
-                </div>
-            </div>
+<!-- ========== ШАПКА XMATCH ========== -->
+<header class="navbar" x-data="{ mobileOpen: false }">
+    <!-- Бренд -->
+    <div class="brand">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZZCjInPQ2mFARO7-w8i3CRsNBgXDGPH3exw&s" 
+             alt="Xmatch Logo" 
+             onerror="this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';">
+        <span class="logo-text">XMATCH</span>
+    </div>
+
+    <!-- Меню с якорями -->
+    <div class="menu">
+        <a href="#hero">ГЛАВНАЯ</a>
+        <a href="#tournaments">ТУРНИРЫ</a>
+        <a href="#rating">РЕЙТИНГ</a>
+        <a href="#events">СОБЫТИЯ</a>
+        <a href="#partners">ПАРТНЕРЫ</a>
+    </div>
+
+    <!-- Кнопка Steam -->
+    <div class="steam-btn" @click="alert('Вход через Steam будет доступен после запуска турниров!')">
+        <i class="fab fa-steam"></i>
+        <span>ВОЙТИ ЧЕРЕЗ STEAM</span>
+    </div>
+
+    <div class="hamburger" @click="mobileOpen = !mobileOpen">
+        <i class="fas fa-bars"></i>
+    </div>
+</header>
+
+<!-- Мобильное меню -->
+<div class="mobile-menu" :class="mobileOpen ? 'open' : ''">
+    <a href="#hero" @click="mobileOpen = false">ГЛАВНАЯ</a>
+    <a href="#tournaments" @click="mobileOpen = false">ТУРНИРЫ</a>
+    <a href="#rating" @click="mobileOpen = false">РЕЙТИНГ</a>
+    <a href="#events" @click="mobileOpen = false">СОБЫТИЯ</a>
+    <a href="#partners" @click="mobileOpen = false">ПАРТНЕРЫ</a>
+    <div class="steam-btn" style="margin-top:8px; justify-content:center;" @click="alert('Вход через Steam будет доступен позже')">
+        <i class="fab fa-steam"></i> ВОЙТИ ЧЕРЕЗ STEAM
+    </div>
+</div>
+
+<!-- ========== ОСНОВНОЙ КОНТЕНТ ========== -->
+<main>
+
+    <!-- Герой (ГЛАВНАЯ) -->
+    <section id="hero" class="hero">
+        <h1>Добро пожаловать в Xmatch</h1>
+        <p>Киберспортивная платформа для турниров, рейтингов и общения. Готовься к битвам!</p>
+    </section>
+
+    <!-- Игры со стеклянными карточками -->
+    <div class="game-grid">
+        <!-- CS2 -->
+        <div class="game-card">
+            <img src="https://i.pinimg.com/originals/b1/02/24/b10224ae75edd5debd06c44662cbcb30.png" alt="CS2" loading="lazy"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1183/1183672.png'">
+            <div class="name">CS2</div>
+            <div class="badge">скоро</div>
+        </div>
+
+        <!-- Dota 2 -->
+        <div class="game-card">
+            <img src="https://i.pinimg.com/originals/41/80/30/418030aec1eab430b66c42040b6e2234.jpg?nii=t" alt="Dota 2" loading="lazy"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1051/1051277.png'">
+            <div class="name">Dota 2</div>
+            <div class="badge">скоро</div>
+        </div>
+
+        <!-- Мир Танков (бывш. World of Tanks) -->
+        <div class="game-card">
+            <img src="https://i.pinimg.com/736x/9b/c0/e6/9bc0e66560b58c669e6eeb08bf6f4c74.jpg" alt="Мир Танков" loading="lazy"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/3669/3669591.png'">
+            <div class="name">Мир Танков</div>
+            <div class="badge">скоро</div>
+        </div>
+
+        <!-- CS 1.6 -->
+        <div class="game-card">
+            <img src="https://images.steamusercontent.com/ugc/795361368774795552/0F948081F9C358B4A8B26E5F19B78EE8F9B13582/?imw=512&amp;&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=false" alt="CS 1.6" loading="lazy"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/501/501156.png'">
+            <div class="name">CS 1.6</div>
+            <div class="badge">скоро</div>
+        </div>
+
+        <!-- Valorant -->
+        <div class="game-card">
+            <img src="https://yt3.ggpht.com/a/AATXAJynPoXlZRqkxOc-0xHQYl9UC_x87VrdM_UqPQ=s900-c-k-c0xffffffff-no-rj-mo" alt="Valorant" loading="lazy"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/742/742483.png'">
+            <div class="name">Valorant</div>
+            <div class="badge">скоро</div>
         </div>
     </div>
 
-    <main class="w-full pt-20">
-        <!-- Блок Steam авторизация (ПОЛНОСТЬЮ РАБОТАЕТ) -->
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6 py-6" x-data="steamAuth()" x-init="initAuth()">
-            <div class="bg-dark-card rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4 shadow-xl border border-[#9C54FF30]">
-                <div class="flex items-center gap-4">
-                    <i class="fab fa-steam text-4xl text-[#66c0f4]"></i>
-                    <div>
-                        <h3 class="text-xl font-bold"><span class="text-[#9C54FF]">Steam</span> интеграция</h3>
-                        <p class="text-gray-400 text-sm">Войди через Steam, чтобы участвовать в турнирах и получать призы</p>
-                    </div>
-                </div>
-                <template x-if="!steamUser">
-                    <button @click="openSteamModal()" class="btn-steam px-7 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-md">
-                        <i class="fab fa-steam text-xl"></i> Войти через Steam
-                    </button>
-                </template>
-                <template x-if="steamUser">
-                    <div class="flex items-center gap-5 bg-[#1f1f2b] p-2 pr-5 rounded-2xl border border-[#9C54FF]">
-                        <img :src="steamUser.avatar" class="w-12 h-12 rounded-full border-2 border-[#9C54FF]">
-                        <div>
-                            <p class="font-bold" x-text="steamUser.nickname"></p>
-                            <p class="text-xs text-gray-400">Steam ID: <span x-text="steamUser.steamid.slice(0,8)+'...'"></span></p>
-                        </div>
-                        <button @click="logout()" class="text-red-400 text-sm underline hover:text-red-300">Выйти</button>
-                    </div>
-                </template>
-            </div>
-            
-            <!-- Модальное окно Steam -->
-            <div x-show="showModal" x-cloak class="fixed inset-0 flex items-center justify-center z-50 modal-backdrop" @click.away="showModal = false">
-                <div class="bg-[#131026] rounded-2xl p-6 max-w-md w-full mx-4 border-2 border-[#9C54FF] shadow-2xl">
-                    <div class="text-center">
-                        <i class="fab fa-steam text-6xl text-[#66c0f4] mb-3"></i>
-                        <h3 class="text-2xl font-bold mb-2">Вход через Steam</h3>
-                        <p class="text-gray-300 mb-4">Вы будете перенаправлены на официальный сайт Steam для авторизации</p>
-                        <div class="flex gap-3">
-                            <button @click="showModal = false" class="flex-1 px-4 py-2 rounded-full border border-gray-600 hover:bg-gray-800">Отмена</button>
-                            <button @click="loginWithSteam()" class="flex-1 btn-primary px-4 py-2 rounded-full font-bold">Продолжить</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- ========== СЕКЦИИ ДЛЯ ВКЛАДОК ========== -->
 
-        <!-- Hero с аватаркой клуба -->
-        <section class="max-w-screen-xl mx-auto px-4 md:px-6 py-6">
-            <div class="bg-gradient-to-r from-[#9C54FF08] to-[#48F95508] p-8 rounded-3xl border border-[#9C54FF30] text-center">
-                <div class="flex justify-center mb-4">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZZCjInPQ2mFARO7-w8i3CRsNBgXDGPH3exw&s" 
-                         alt="Xmatch Game Club" 
-                         class="h-24 w-auto rounded-2xl shadow-2xl border-2 border-[#9C54FF] logo-neon bg-black/30 p-1"
-                         onerror="this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';">
-                </div>
-                <h1 class="text-5xl md:text-7xl font-black tracking-tight"><span class="bg-gradient-to-r from-[#9C54FF] via-[#48F955] to-[#9C54FF] bg-clip-text text-transparent">XMATCH</span></h1>
-                <p class="text-xl text-gray-300 mt-5 max-w-2xl mx-auto">Киберспортивная платформа для настоящих бойцов. Регистрируйся, следи за новостями и готовься к битвам!</p>
-                <div class="flex flex-wrap justify-center gap-5 mt-9">
-                    <a href="https://t.me/brigadirini" target="_blank" class="btn-primary px-7 py-3 rounded-full font-bold text-lg flex items-center gap-2 shadow-lg"><i class="fab fa-telegram"></i> Записаться на турнир</a>
-                    <a href="#howto" class="border border-[#9C54FF] text-[#9C54FF] px-7 py-3 rounded-full font-bold text-lg hover:bg-[#9C54FF] hover:text-black transition"><i class="fas fa-info-circle"></i> Как участвовать</a>
-                </div>
-            </div>
-        </section>
+    <!-- ТУРНИРЫ -->
+    <section id="tournaments" class="section-block">
+        <h2>🏆 Турниры</h2>
+        <p>Здесь будут отображаться все активные и предстоящие турниры. Следите за расписанием и регистрируйтесь!</p>
+        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Пока турниров нет, но они скоро появятся. Подпишитесь на Telegram-канал, чтобы не пропустить.</p>
+    </section>
 
-        <!-- ТАБЛИЦА ТУРНИРОВ - ПУСТО, НЕТ ТУРНИРОВ -->
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6 mt-5" id="tournaments">
-            <div class="bg-dark-card rounded-2xl p-6 shadow-2xl border border-[#9C54FF30]">
-                <div class="flex flex-wrap justify-between items-center mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold flex items-center gap-2"><span class="pulse-dot-purple"></span> Ближайшие турниры</h2>
-                    <span class="text-sm bg-black/40 px-3 py-1 rounded-full border border-[#9C54FF40]"><i class="fas fa-calendar-alt text-[#9C54FF]"></i> Скоро</span>
-                </div>
-                
-                <!-- ПУСТОЕ СОСТОЯНИЕ - НЕТ ТУРНИРОВ -->
-                <div class="text-center py-16 empty-float">
-                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[#9C54FF10] border border-[#9C54FF40] mb-6">
-                        <i class="fas fa-trophy text-5xl text-[#9C54FF] opacity-60"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-300 mb-3">Пока нет активных турниров</h3>
-                    <p class="text-gray-400 max-w-md mx-auto mb-6">Следите за обновлениями в нашем Telegram-канале. Первые турниры скоро появятся!</p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <a href="https://t.me/x_matchclub" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1f2c38] border border-[#9C54FF] hover:bg-[#9C54FF20] transition">
-                            <i class="fab fa-telegram text-[#9C54FF]"></i> Подписаться на новости
-                        </a>
-                        <a href="https://t.me/brigadirini" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full btn-primary">
-                            <i class="fas fa-pen-alt"></i> Записаться на первый турнир
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="mt-5 text-center text-gray-500 text-xs border-t border-[#9C54FF40] pt-4">
-                    <i class="fas fa-bell mr-1 text-[#9C54FF]"></i> Подпишись на Telegram-канал, чтобы первым узнать о старте турниров!
-                </div>
-            </div>
-        </div>
+    <!-- РЕЙТИНГ -->
+    <section id="rating" class="section-block">
+        <h2>📊 Рейтинг</h2>
+        <p>Таблица лидеров среди игроков и команд. Рейтинг будет обновляться после каждого турнира.</p>
+        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Первые результаты появятся после старта турниров.</p>
+    </section>
 
-        <!-- Игровая галерея (иконки игр) -->
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6 mt-12" id="games-section">
-            <h2 class="text-3xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-gamepad text-[#9C54FF]"></i> Игровые дисциплины <span class="text-gray-400 text-base">| готовим турниры</span></h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition border border-[#9C54FF40]"><img src="https://cdn.akamai.steamstatic.com/steam/apps/730/header.jpg" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1183/1183672.png'"><div class="font-bold text-sm">CS2</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota2_social.jpg" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1051/1051277.png'"><div class="font-bold text-sm">Dota 2</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://cdn.akamai.steamstatic.com/steam/apps/1402000/header.jpg" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3669/3669591.png'"><div class="font-bold text-sm">WoT</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://cdn.cloudflare.steamstatic.com/apps/cs16/images/cs16_facebook.jpg" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/501/501156.png'"><div class="font-bold text-sm">CS 1.6</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://play-lh.googleusercontent.com/3n1PvT4uQ6l6X6Q6l6X6Q6l6X6Q6l6X6Q6l6X6Q6l6" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4827/4827639.png'"><div class="font-bold text-sm">Free Fire</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://images.contentstack.io/v3/assets/bltb6530b271f5b5f1f/blt2e5b5b5b5b5b5b5b/5f4e8f8c8c8c8c8c8c8c8c8c/valorant-icon.png" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/742/742483.png'"><div class="font-bold text-sm">Valorant</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://cdn.akamai.steamstatic.com/steam/apps/359550/header.jpg" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3096/3096982.png'"><div class="font-bold text-sm">R6 Siege</div></div>
-                <div class="bg-dark-card rounded-xl p-3 text-center hover:scale-105 transition"><img src="https://images.contentstack.io/v3/assets/blt370b3f3c6c3b1af2/blt8c9f1c0f1e1c1e1c/5f4e8f8c8c8c8c8c8c8c8c8c/league-of-legends-icon.png" class="w-14 h-14 mx-auto rounded-xl mb-2 object-cover" onerror="this.src='https://cdn-icons-png.flaticon.com/512/489/489533.png'"><div class="font-bold text-sm">LoL</div></div>
-            </div>
-        </div>
+    <!-- СОБЫТИЯ -->
+    <section id="events" class="section-block">
+        <h2>🎉 События</h2>
+        <p>Новости, ивенты, стримы и специальные предложения от Xmatch.</p>
+        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Будьте в курсе – подписывайтесь на наши соцсети.</p>
+    </section>
 
-        <!-- Аналитика и Трансляции -->
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6 mt-14" id="analytics">
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-dark-card rounded-2xl p-6 shadow-xl border border-[#9C54FF30]">
-                    <div class="flex items-center gap-3 mb-4"><i class="fas fa-chart-line text-3xl text-[#9C54FF]"></i><h3 class="text-2xl font-bold">Комплексная Аналитика</h3></div>
-                    <p class="text-gray-300 mb-4">Статистика команд, винрейты, карты и мета-аналитика по всем дисциплинам. Данные обновляются после старта турниров.</p>
-                    <div class="grid grid-cols-2 gap-3 text-sm">
-                        <div class="bg-black/30 p-2 rounded border-l-2 border-[#9C54FF]"><span class="text-[#48F955]">▲ скоро</span> Статистика сезона</div>
-                        <div class="bg-black/30 p-2 rounded border-l-2 border-[#48F955]"><span class="text-[#9C54FF]">★ ожидайте</span> Рейтинг игроков</div>
-                    </div>
-                </div>
-                <div class="bg-dark-card rounded-2xl p-6 shadow-xl border border-[#9C54FF30]">
-                    <div class="flex items-center gap-3 mb-4"><i class="fas fa-tv text-3xl text-[#48F955]"></i><h3 class="text-2xl font-bold">Трансляции & Новости</h3></div>
-                    <ul class="space-y-3">
-                        <li class="flex gap-3"><i class="fab fa-telegram text-[#9C54FF] mt-1"></i><span>Подпишись на Telegram, чтобы следить за анонсами турниров</span></li>
-                        <li class="flex gap-3"><i class="fas fa-newspaper text-[#9C54FF] mt-1"></i><span>Скоро старт первого турнира по CS2 и Dota 2</span></li>
-                        <li class="flex gap-3"><i class="fas fa-microphone-alt text-yellow-400"></i><span>Готовятся интервью с топ-игроками</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!-- ПАРТНЕРЫ -->
+    <section id="partners" class="section-block">
+        <h2>🤝 Партнеры</h2>
+        <p>Наши партнёры и спонсоры, которые помогают развивать киберспорт.</p>
+        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Список партнёров будет опубликован позже.</p>
+    </section>
 
-        <!-- Регистрация и контакты -->
-        <div class="max-w-screen-xl mx-auto px-4 md:px-6 py-12 grid md:grid-cols-2 gap-8" id="howto">
-            <div class="bg-dark-card rounded-2xl p-6 border border-[#9C54FF40]">
-                <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i class="fab fa-telegram text-[#9C54FF]"></i> Как участвовать?</h3>
-                <div class="space-y-4">
-                    <div class="flex gap-3"><span class="bg-gradient-to-r from-[#9C54FF] to-[#48F955] text-black font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm">1</span><span>Авторизуйся через Steam (кнопка выше).</span></div>
-                    <div class="flex gap-3"><span class="bg-gradient-to-r from-[#9C54FF] to-[#48F955] text-black font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm">2</span><span>Напиши <strong class="text-[#9C54FF]">@brigadirini</strong> в Telegram — сообщи, что хочешь участвовать.</span></div>
-                    <div class="flex gap-3"><span class="bg-gradient-to-r from-[#9C54FF] to-[#48F955] text-black font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm">3</span><span>Как только турнир объявят, ты получишь приглашение!</span></div>
-                </div>
-                <a href="https://t.me/brigadirini" target="_blank" class="inline-flex items-center gap-2 mt-6 bg-[#1f2c38] px-5 py-2.5 rounded-full border border-[#9C54FF] hover:bg-[#9C54FF20] transition"><i class="fab fa-telegram"></i> Написать организатору</a>
-            </div>
-            <div class="bg-dark-card rounded-2xl p-6 border border-[#9C54FF40]">
-                <h3 class="text-2xl font-bold mb-4">📢 Контакты клуба</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <i class="fab fa-telegram text-3xl text-[#9C54FF]"></i>
-                        <div>
-                            <p class="font-semibold">Telegram канал</p>
-                            <a href="https://t.me/x_matchclub" target="_blank" class="text-[#9C54FF] hover:underline">@x_matchclub</a>
-                            <p class="text-xs text-gray-400">Новости, стримы, розыгрыши</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <i class="fas fa-envelope text-2xl text-gray-400"></i>
-                        <div>
-                            <p class="font-semibold">support@xmatch.gg</p>
-                            <p class="text-xs text-gray-400">По вопросам сотрудничества</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+</main>
 
-    <footer class="border-t border-[#9C54FF40] bg-[#0a0a12] mt-10">
-        <div class="max-w-screen-xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-            <div>© 2026 XMATCH — Компьютерный клуб сделал EgorikDev </div>
-            <div class="flex gap-6 mt-4 md:mt-0">
-                <a href="https://t.me/x_matchclub" class="hover:text-[#9C54FF] transition"><i class="fab fa-telegram"></i> Telegram-канал</a>
-                <a href="#" class="hover:text-[#9C54FF] transition"><i class="fab fa-steam"></i> Steam-интеграция</a>
-            </div>
-        </div>
-    </footer>
-</div>
+<footer style="text-align:center; padding: 28px 16px; border-top: 1px solid rgba(156,84,255,0.1); color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 20px;">
+    © 2026 Xmatch — Сделал EgorikDev
+</footer>
 
-<script>
-    function steamAuth() {
-        return {
-            steamUser: null,
-            showModal: false,
-            initAuth() {
-                const saved = localStorage.getItem('xmatch_steam_final_v2');
-                if(saved) {
-                    try {
-                        this.steamUser = JSON.parse(saved);
-                    } catch(e) {}
-                }
-                const params = new URLSearchParams(window.location.search);
-                if(params.has('steam_id') && params.has('steam_name')) {
-                    const user = {
-                        steamid: params.get('steam_id'),
-                        nickname: decodeURIComponent(params.get('steam_name')),
-                        avatar: 'https://avatars.steamstatic.com/8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f_medium.jpg'
-                    };
-                    this.steamUser = user;
-                    localStorage.setItem('xmatch_steam_final_v2', JSON.stringify(user));
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
-            },
-            openSteamModal() {
-                this.showModal = true;
-            },
-            loginWithSteam() {
-                this.showModal = false;
-                const demoUser = {
-                    steamid: "76561198" + Math.floor(Math.random() * 10000000),
-                    nickname: "Xmatch_Fighter_" + Math.floor(Math.random() * 999),
-                    avatar: "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fefefefefefefefefefefefefefefefefefefefe_full.jpg"
-                };
-                this.steamUser = demoUser;
-                localStorage.setItem('xmatch_steam_final_v2', JSON.stringify(demoUser));
-                alert("✅ Добро пожаловать, " + demoUser.nickname + "! Теперь вы в курсе всех новостей клуба.");
-            },
-            logout() {
-                this.steamUser = null;
-                localStorage.removeItem('xmatch_steam_final_v2');
-            }
-        }
-    }
-</script>
 </body>
 </html>
