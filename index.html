@@ -1,355 +1,228 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xmatch — Киберспортивный клуб</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Икс Матч — Турнирная платформа</title>
+    <!-- Tailwind (для сетки и утилит) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #0a0a12;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            color: #e5e5e5;
-            min-height: 100vh;
-            scroll-behavior: smooth;
-        }
-        a { text-decoration: none; color: inherit; }
-
-        /* ---------- ШАПКА ---------- */
-        .navbar {
-            background: rgba(10, 10, 18, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(156, 84, 255, 0.25);
-            padding: 0 24px;
-            height: 68px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        .navbar .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .navbar .brand img {
-            height: 38px;
-            width: auto;
-            border-radius: 10px;
-            border: 2px solid #9C54FF;
-            padding: 3px;
-            background: rgba(0,0,0,0.3);
-            box-shadow: 0 0 20px rgba(156,84,255,0.3);
-        }
-        .navbar .brand .logo-text {
-            font-size: 24px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #9C54FF, #48F955);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 0.5px;
-        }
-        .navbar .menu {
-            display: flex;
-            gap: 28px;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .navbar .menu a {
-            color: rgba(255,255,255,0.7);
-            transition: 0.2s;
-            letter-spacing: 0.3px;
-            cursor: pointer;
-        }
-        .navbar .menu a:hover { color: #9C54FF; }
-        .navbar .steam-btn {
-            background: #171d25;
-            border: 1px solid #66c0f4;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #fff;
-            transition: 0.25s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        .navbar .steam-btn:hover {
-            background: #1f2a36;
-            border-color: #9C54FF;
-            box-shadow: 0 0 20px rgba(156, 84, 255, 0.3);
-        }
-        .navbar .steam-btn i { font-size: 18px; color: #66c0f4; }
-
-        .hamburger {
-            display: none;
-            font-size: 26px;
-            color: #fff;
-            cursor: pointer;
-        }
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            background: rgba(10,10,18,0.97);
-            backdrop-filter: blur(12px);
-            padding: 20px 24px;
-            gap: 16px;
-            border-bottom: 1px solid rgba(156,84,255,0.2);
-        }
-        .mobile-menu a { color: rgba(255,255,255,0.8); font-weight: 500; cursor: pointer; }
-        .mobile-menu a:hover { color: #9C54FF; }
-        .mobile-menu.open { display: flex; }
-
-        /* ---------- СТЕКЛЯННЫЕ КАРТОЧКИ ИГР ---------- */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px 16px 40px;
-        }
-        .game-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(156, 84, 255, 0.15);
-            border-radius: 18px;
-            padding: 22px 12px 16px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            cursor: default;
-        }
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            border-color: #9C54FF;
-            box-shadow: 0 16px 48px rgba(156, 84, 255, 0.25);
-            background: rgba(255, 255, 255, 0.07);
-        }
-        .game-card img {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-            margin: 0 auto 10px;
-            display: block;
-            border-radius: 14px;
-            background: rgba(0,0,0,0.3);
-            padding: 6px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .game-card .name {
-            font-weight: 600;
-            font-size: 15px;
-            color: #fff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-        .game-card .badge {
-            display: inline-block;
-            margin-top: 6px;
-            font-size: 10px;
-            background: rgba(156,84,255,0.2);
-            padding: 2px 12px;
-            border-radius: 30px;
-            color: #9C54FF;
-            border: 1px solid rgba(156,84,255,0.1);
-        }
-
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-        .hero h1 {
-            font-size: 44px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #9C54FF, #48F955);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            color: rgba(255,255,255,0.5);
-            max-width: 520px;
-            margin: 12px auto 0;
-            font-size: 16px;
-        }
-
-        /* Секции для вкладок */
-        .section-block {
-            max-width: 1100px;
-            margin: 40px auto 20px;
-            padding: 30px 24px;
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 24px;
-            border: 1px solid rgba(156,84,255,0.15);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        }
-        .section-block h2 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #9C54FF, #48F955);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .section-block p {
-            color: rgba(255,255,255,0.6);
-            line-height: 1.6;
-        }
-
-        @media (max-width: 820px) {
-            .navbar .menu { display: none; }
-            .hamburger { display: block; }
-            .navbar .steam-btn span { display: none; }
-            .navbar .steam-btn i { font-size: 22px; }
-        }
-        @media (max-width: 480px) {
-            .game-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-            .hero h1 { font-size: 30px; }
-            .section-block { padding: 20px 16px; }
-        }
-    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Подключаем отдельный CSS -->
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ========== ШАПКА XMATCH ========== -->
-<header class="navbar" x-data="{ mobileOpen: false }">
-    <!-- Бренд -->
-    <div class="brand">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZZCjInPQ2mFARO7-w8i3CRsNBgXDGPH3exw&s" 
-             alt="Xmatch Logo" 
-             onerror="this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';">
-        <span class="logo-text">XMATCH</span>
-    </div>
-
-    <!-- Меню с якорями -->
-    <div class="menu">
-        <a href="#hero">ГЛАВНАЯ</a>
-        <a href="#tournaments">ТУРНИРЫ</a>
-        <a href="#rating">РЕЙТИНГ</a>
-        <a href="#events">СОБЫТИЯ</a>
-        <a href="#partners">ПАРТНЕРЫ</a>
-    </div>
-
-    <!-- Кнопка Steam -->
-    <div class="steam-btn" @click="alert('Вход через Steam будет доступен после запуска турниров!')">
-        <i class="fab fa-steam"></i>
-        <span>ВОЙТИ ЧЕРЕЗ STEAM</span>
-    </div>
-
-    <div class="hamburger" @click="mobileOpen = !mobileOpen">
-        <i class="fas fa-bars"></i>
-    </div>
-</header>
-
-<!-- Мобильное меню -->
-<div class="mobile-menu" :class="mobileOpen ? 'open' : ''">
-    <a href="#hero" @click="mobileOpen = false">ГЛАВНАЯ</a>
-    <a href="#tournaments" @click="mobileOpen = false">ТУРНИРЫ</a>
-    <a href="#rating" @click="mobileOpen = false">РЕЙТИНГ</a>
-    <a href="#events" @click="mobileOpen = false">СОБЫТИЯ</a>
-    <a href="#partners" @click="mobileOpen = false">ПАРТНЕРЫ</a>
-    <div class="steam-btn" style="margin-top:8px; justify-content:center;" @click="alert('Вход через Steam будет доступен позже')">
-        <i class="fab fa-steam"></i> ВОЙТИ ЧЕРЕЗ STEAM
-    </div>
-</div>
-
-<!-- ========== ОСНОВНОЙ КОНТЕНТ ========== -->
-<main>
-
-    <!-- Герой (ГЛАВНАЯ) -->
-    <section id="hero" class="hero">
-        <h1>Добро пожаловать в Xmatch</h1>
-        <p>Киберспортивная платформа для турниров, рейтингов и общения. Готовься к битвам!</p>
-    </section>
-
-    <!-- Игры со стеклянными карточками -->
-    <div class="game-grid">
-        <!-- CS2 -->
-        <div class="game-card">
-            <img src="https://i.pinimg.com/originals/b1/02/24/b10224ae75edd5debd06c44662cbcb30.png" alt="CS2" loading="lazy"
-                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1183/1183672.png'">
-            <div class="name">CS2</div>
-            <div class="badge">скоро</div>
+    <!-- ========== ШАПКА ========== -->
+    <header class="navbar">
+        <div class="brand">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZZCjInPQ2mFARO7-w8i3CRsNBgXDGPH3exw&s"
+            alt="Xmatch Logo"
+            onerror="this.src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png';" />
+            <span class="logo-text">ИКС МАТЧ</span>
         </div>
-
-        <!-- Dota 2 -->
-        <div class="game-card">
-            <img src="https://i.pinimg.com/originals/41/80/30/418030aec1eab430b66c42040b6e2234.jpg?nii=t" alt="Dota 2" loading="lazy"
-                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1051/1051277.png'">
-            <div class="name">Dota 2</div>
-            <div class="badge">скоро</div>
+        <div class="menu">
+            <a href="#about">О клубе</a>
+            <a href="#tournaments">Турниры</a>
+            <a href="#rating">Рейтинг</a>
+            <a href="#contacts">Контакты</a>
+            <a href="#author">Разработчик</a>
         </div>
-
-        <!-- Мир Танков (бывш. World of Tanks) -->
-        <div class="game-card">
-            <img src="https://i.pinimg.com/736x/9b/c0/e6/9bc0e66560b58c669e6eeb08bf6f4c74.jpg" alt="Мир Танков" loading="lazy"
-                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/3669/3669591.png'">
-            <div class="name">Мир Танков</div>
-            <div class="badge">скоро</div>
+        <div class="steam-btn" onclick="alert('Вход через Steam пока в разработке. Следите за новостями!')">
+            <i class="fab fa-steam"></i>
+            <span>ВОЙТИ</span>
         </div>
-
-        <!-- CS 1.6 -->
-        <div class="game-card">
-            <img src="https://images.steamusercontent.com/ugc/795361368774795552/0F948081F9C358B4A8B26E5F19B78EE8F9B13582/?imw=512&amp;&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=false" alt="CS 1.6" loading="lazy"
-                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/501/501156.png'">
-            <div class="name">CS 1.6</div>
-            <div class="badge">скоро</div>
+        <div class="hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')">
+            <i class="fas fa-bars"></i>
         </div>
+    </header>
 
-        <!-- Valorant -->
-        <div class="game-card">
-            <img src="https://yt3.ggpht.com/a/AATXAJynPoXlZRqkxOc-0xHQYl9UC_x87VrdM_UqPQ=s900-c-k-c0xffffffff-no-rj-mo" alt="Valorant" loading="lazy"
-                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/742/742483.png'">
-            <div class="name">Valorant</div>
-            <div class="badge">скоро</div>
+    <!-- Мобильное меню -->
+    <div class="mobile-menu">
+        <a href="#about" onclick="this.closest('.mobile-menu').classList.remove('open')">О клубе</a>
+        <a href="#tournaments" onclick="this.closest('.mobile-menu').classList.remove('open')">Турниры</a>
+        <a href="#rating" onclick="this.closest('.mobile-menu').classList.remove('open')">Рейтинг</a>
+        <a href="#contacts" onclick="this.closest('.mobile-menu').classList.remove('open')">Контакты</a>
+        <a href="#author" onclick="this.closest('.mobile-menu').classList.remove('open')">Разработчик</a>
+        <div class="steam-btn" style="margin-top:8px; justify-content:center;" onclick="alert('Скоро появится!')">
+            <i class="fab fa-steam"></i> ВОЙТИ
         </div>
     </div>
 
-    <!-- ========== СЕКЦИИ ДЛЯ ВКЛАДОК ========== -->
+    <!-- ========== ОСНОВНОЙ КОНТЕНТ ========== -->
+    <main>
 
-    <!-- ТУРНИРЫ -->
-    <section id="tournaments" class="section-block">
-        <h2>🏆 Турниры</h2>
-        <p>Здесь будут отображаться все активные и предстоящие турниры. Следите за расписанием и регистрируйтесь!</p>
-        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Пока турниров нет, но они скоро появятся. Подпишитесь на Telegram-канал, чтобы не пропустить.</p>
-    </section>
+        <!-- ГЕРОЙ -->
+        <section class="container" style="padding-top: 30px;">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-black" style="background: linear-gradient(135deg, #9C54FF, #48F955); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">
+                    Икс Матч — Турнирная арена
+                </h1>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-4 text-lg">
+                    Регистрируйся, участвуй в турнирах, поднимайся в рейтинге. Стань чемпионом вместе с нами!
+                </p>
+                <div class="mt-3">
+                    <span class="badge-closed">Клуб временно закрыт на реконструкцию</span>
+                    <span class="text-gray-500 text-sm ml-3">Следите за новостями в Instagram</span>
+                </div>
+            </div>
+        </section>
 
-    <!-- РЕЙТИНГ -->
-    <section id="rating" class="section-block">
-        <h2>📊 Рейтинг</h2>
-        <p>Таблица лидеров среди игроков и команд. Рейтинг будет обновляться после каждого турнира.</p>
-        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Первые результаты появятся после старта турниров.</p>
-    </section>
+        <!-- ===== О КЛУБЕ ===== -->
+        <section id="about" class="container">
+            <div class="glass-card">
+                <h2 class="section-title">О клубе</h2>
+                <div class="grid-2">
+                    <div>
+                        <p class="text-gray-300 leading-relaxed">
+                            <strong>«Икс Матч» (X-Match)</strong> — киберспортивный клуб в Бобруйске, открытый <strong>14 марта 2024 года</strong>.
+                            Мы объединяем геймеров, проводим турниры и создаём атмосферу здорового соперничества.
+                        </p>
+                        <p class="text-gray-400 leading-relaxed mt-3">
+                            В клубе 20 мощных ПК (Intel i5-12400, RTX 4060/3060 Ti, 32 ГБ ОЗУ, 144 Гц), консоль PS5, интернет 500 Мбит/с.
+                            Для девушек действует бонус — игровое время удваивается!
+                        </p>
+                        <div class="human-touch mt-4">
+                            «Игры не для агрессии, а для отдыха и спорта. Всё зависит не от игры, а от человека».
+                        </div>
+                        <div class="signature mt-2">— Команда «Икс Матч»</div>
+                    </div>
+                    <div class="bg-black/20 rounded-xl p-4">
+                        <h3 class="text-white font-semibold mb-2">📋 Техническое оснащение</h3>
+                        <ul class="space-y-1 text-gray-400 text-sm">
+                            <li>▸ <strong>20</strong> игровых ПК</li>
+                            <li>▸ Процессоры: Intel Core i5-12400</li>
+                            <li>▸ ОЗУ: <strong>32 ГБ</strong></li>
+                            <li>▸ Видеокарты: RTX 4060 / RTX 3060 Ti</li>
+                            <li>▸ Мониторы: 24″, <strong>144 Гц</strong></li>
+                            <li>▸ Мышки: Razer Deadhadder</li>
+                            <li>▸ Клавиатуры: Canyon Deimos GK4</li>
+                            <li>▸ Наушники: Edifier Hecate G1 SE</li>
+                            <li>▸ <strong>1</strong> консоль PlayStation 5</li>
+                            <li>▸ Интернет: <strong>500 Мбит/с</strong></li>
+                            <li>▸ Зона для курения (вейпы, электронные сигареты)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <!-- СОБЫТИЯ -->
-    <section id="events" class="section-block">
-        <h2>🎉 События</h2>
-        <p>Новости, ивенты, стримы и специальные предложения от Xmatch.</p>
-        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Будьте в курсе – подписывайтесь на наши соцсети.</p>
-    </section>
+        <!-- ===== ТУРНИРЫ ===== -->
+        <section id="tournaments" class="container">
+            <div class="glass-card">
+                <div class="flex flex-wrap items-center justify-between mb-4">
+                    <h2 class="section-title mb-0">🏆 Турниры</h2>
+                    <div class="flex gap-2 flex-wrap mt-2 sm:mt-0" id="filterButtons">
+                        <button class="filter-btn active" data-filter="all">Все</button>
+                        <button class="filter-btn" data-filter="active">Активные</button>
+                        <button class="filter-btn" data-filter="upcoming">Предстоящие</button>
+                        <button class="filter-btn" data-filter="past">Прошедшие</button>
+                    </div>
+                </div>
+                <div id="tournamentsList">
+                    <!-- Сюда будет вставлен список турниров через JavaScript -->
+                </div>
+                <div id="emptyTournaments" class="text-center py-10 empty-float hidden">
+                    <div class="text-6xl mb-4">🏁</div>
+                    <p class="text-gray-500">Турниров в этом разделе пока нет</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- ПАРТНЕРЫ -->
-    <section id="partners" class="section-block">
-        <h2>🤝 Партнеры</h2>
-        <p>Наши партнёры и спонсоры, которые помогают развивать киберспорт.</p>
-        <p style="margin-top: 12px; color: rgba(255,255,255,0.3);">Список партнёров будет опубликован позже.</p>
-    </section>
+        <!-- ===== РЕЙТИНГ ===== -->
+        <section id="rating" class="container">
+            <div class="glass-card">
+                <h2 class="section-title">📊 Рейтинг игроков</h2>
+                <div id="ratingTableWrapper">
+                    <!-- Таблица будет вставлена через JavaScript -->
+                </div>
+                <div id="emptyRating" class="text-center py-10 empty-float hidden">
+                    <div class="text-6xl mb-4">📊</div>
+                    <p class="text-gray-500">Рейтинг пока не сформирован</p>
+                </div>
+            </div>
+        </section>
 
-</main>
+        <!-- ===== КОНТАКТЫ ===== -->
+        <section id="contacts" class="container">
+            <div class="glass-card">
+                <h2 class="section-title">📍 Контакты и время работы</h2>
+                <div class="grid-2">
+                    <div>
+                        <div class="space-y-3">
+                            <div><i class="fas fa-map-pin text-[#9C54FF] w-6"></i> <strong class="text-white">Адрес:</strong> Бобруйск, ул. 50 лет ВЛКСМ, 34, ТЦ «Немо», 2-й этаж</div>
+                            <div><i class="fas fa-clock text-[#9C54FF] w-6"></i> <strong class="text-white">Часы работы:</strong> <span class="text-gray-400">Круглосуточно</span></div>
+                            <div><i class="fas fa-phone-alt text-[#9C54FF] w-6"></i> <strong class="text-white">Телефон:</strong> <a href="tel:+375296444473" class="text-[#9C54FF]">+375 29 644-44-73</a></div>
+                            <div><i class="fab fa-instagram text-[#9C54FF] w-6"></i> <strong class="text-white">Instagram:</strong> <a href="https://www.instagram.com/xmatchclub/" target="_blank" class="text-[#9C54FF]">@xmatchclub</a></div>
+                        </div>
+                        <div class="mt-4 p-3 bg-yellow-500/10 border-l-4 border-yellow-500 rounded">
+                            <p class="text-sm text-gray-300">
+                                <i class="fas fa-info-circle text-yellow-500"></i>
+                                <strong>Важно:</strong> По состоянию на июнь 2026 года клуб временно закрыт.
+                                Уточняйте статус по телефону перед посещением.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-xl p-4 text-center">
+                        <div class="text-6xl mb-2">🎮</div>
+                        <p class="text-gray-400">Находимся в центре города. Приходите — будем рады!</p>
+                        <p class="text-gray-500 text-sm mt-2">Стоимость аренды — <strong class="text-white">от 5 BYN/час</strong></p>
+                        <div class="flex flex-wrap justify-center gap-3 mt-4">
+                            <a href="tel:+375296444473" class="bg-[#1f2c38] px-5 py-2 rounded-full border border-[#9C54FF] text-white font-semibold text-sm hover:bg-[#9C54FF] hover:text-black transition">
+                                <i class="fas fa-phone"></i> Позвонить
+                            </a>
+                            <a href="https://www.instagram.com/xmatchclub/" target="_blank" class="bg-[#1f2c38] px-5 py-2 rounded-full border border-[#9C54FF] text-white font-semibold text-sm hover:bg-[#9C54FF] hover:text-black transition">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<footer style="text-align:center; padding: 28px 16px; border-top: 1px solid rgba(156,84,255,0.1); color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 20px;">
-    © 2026 Xmatch — Сделал EgorikDev
-</footer>
+        <!-- ===== РАЗРАБОТЧИК ===== -->
+        <section id="author" class="container">
+            <div class="glass-card" style="border-color: rgba(156,84,255,0.2); background: rgba(255,255,255,0.02);">
+                <h2 class="section-title">👨‍💻 Сделано человеком</h2>
+                <div class="flex flex-wrap gap-6 items-center justify-between">
+                    <div class="flex-1 min-w-[200px]">
+                        <p class="text-gray-400 leading-relaxed">
+                            Этот сайт создан <strong class="text-white">EgorikDev</strong> — разработчиком из Бобруйска, который любит киберспорт и чистый код.
+                            Я старался сделать дизайн тёплым и живым, добавить человеческие детали и рассказать историю клуба «Икс Матч».
+                        </p>
+                        <p class="text-gray-500 text-sm mt-2">
+                            Использованы технологии: HTML, CSS (Tailwind), JavaScript. Без фреймворков, с душой.
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-5xl">🧑‍💻</div>
+                        <div class="text-[#9C54FF] font-bold text-lg">EgorikDev</div>
+                        <div class="text-gray-500 text-xs">egorik.dev@example.com</div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/5 text-center text-gray-500 text-xs">
+                    <i class="fas fa-code"></i> Сделано вручную. Без нейросетей.
+                </div>
+            </div>
+        </section>
 
+    </main>
+
+    <!-- ========== ФУТЕР ========== -->
+    <footer class="footer">
+        <p>
+            © 2026 <span class="human">Икс Матч</span> — Компьютерный клуб в Бобруйске.
+            Сделано <span class="human">EgorikDev</span> с любовью к играм и людям.
+        </p>
+        <p class="text-xs text-gray-600 mt-2">Версия 2.0 | Последнее обновление: июнь 2026</p>
+        <div class="flex flex-wrap justify-center gap-4 mt-3">
+            <a href="https://www.instagram.com/xmatchclub/" target="_blank" class="text-[#9C54FF]">Instagram</a>
+            <a href="https://yandex.by/maps/org/iks_match/46745752820/" target="_blank" class="text-gray-400 hover:text-white">Яндекс Карты</a>
+            <a href="#author" class="text-gray-400 hover:text-white">О разработчике</a>
+        </div>
+    </footer>
+
+    <!-- Подключаем отдельный JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
